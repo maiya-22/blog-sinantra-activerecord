@@ -79,22 +79,28 @@ end
 
 # WORKING create a new tag
 # in postman:
-# in the url: http://localhost:4567/tag/create
-# in the request body:  {"name":"newTagName"}
+# in the url: POST http://localhost:4567/tag/create
+# in the request body:  {"tag_name":"newTagName"}
 post "/tag/create" do 
     params = JSON.parse(request.body.read)
     # in the body, the key is not a symbol
     Tag.create({
-          name: params["name"]
+          name: params["tag_name"]
           })
     redirect "/tag"
 end
 
-# delete a tag and remove all of it's references from the join table:
-delete "/tag/:tag_id/" do
-    # delete the tag
-    # delete it off of the join table, but do not delete associated posts
-    
+# WORKING delete a tag
+# In postman:  
+# in the url: DELETE  http://localhost:4567/tag/destroy
+# in the request body {"name":"newTagName"}
+delete "/tag/destroy" do
+    params = JSON.parse(request.body.read)
+    @tag_to_delete = Tag.where(name: params["tag_name"])[0]
+    unless @tag_to_delete == nil
+        Tag.destroy(@tag_to_delete.id)
+    end
+    redirect "/tag"
 end
 
 
