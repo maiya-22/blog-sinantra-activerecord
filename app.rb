@@ -23,9 +23,7 @@ get '/test' do
     @posts.to_json
 end
 
-
-
-# Actions related to tags:
+# ACTIONS RELATED TO TAGS:
 
 # WORKING: retrieve all tags on a certain post:
 get "/post/:post_id/tag" do    
@@ -39,15 +37,11 @@ get "/tag" do
     Tag.all.to_json
 end
 
-
+# WORKING: retreive a tag by its id:
 get "/tag/:tag_id" do
     @tag = Tag.find(params[:tag_id])
     @tag.to_json
  end
-
-
-
-
 
 # WORKING: retrieve posts for a certain tag:
 get "/tag/:tag_name/post" do
@@ -89,9 +83,8 @@ end
 # in the request body:  {"name":"newTagName"}
 post "/tag/create" do 
     params = JSON.parse(request.body.read)
-    p "PARAMS"
-    p params["name"]
-     Tag.create({
+    # in the body, the key is not a symbol
+    Tag.create({
           name: params["name"]
           })
     redirect "/tag"

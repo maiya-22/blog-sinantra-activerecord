@@ -1,1 +1,4 @@
 figure out how form automatically submit, ie what url they create; and how to capture this in a post route
+
+Question:
+Why is the key in the json params not a symbol?  In my post "tag/create" route via postman?
