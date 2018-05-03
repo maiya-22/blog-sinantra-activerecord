@@ -83,14 +83,7 @@ get "/blog/:blog_id/tag" do
    @tags.to_json
 end
 
-# delete a tag and remove all of it's references from the join table:
-delete "/tag/:tag_id/" do
-    # delete the tag
-    # delete it off of the join table, but do not delete associated posts
-    
-end
-
-
+# WORKING create a new tag
 # in postman:
 # in the url: http://localhost:4567/tag/create
 # in the request body:  {"name":"newTagName"}
@@ -103,3 +96,12 @@ post "/tag/create" do
           })
     redirect "/tag"
 end
+
+# delete a tag and remove all of it's references from the join table:
+delete "/tag/:tag_id/" do
+    # delete the tag
+    # delete it off of the join table, but do not delete associated posts
+    
+end
+
+
