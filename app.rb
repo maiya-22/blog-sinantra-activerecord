@@ -56,12 +56,16 @@ get "/post/:post_id/tags" do
     # p @post.tags
 
 
-    @tags = Post_tag.where(post_id: @post.id)
+    # @tags = Post_tag.where(post_id: @post.id)
     
   
     # @tags = Post_tag.where(post_id: @post.id).tags
     # p "@tags"
     # p @tags
+
+    @tags = Tag.where(user_id: params[:user_id])
+    p "@tags: " 
+    p @tags 
 
     "testing"
 end
