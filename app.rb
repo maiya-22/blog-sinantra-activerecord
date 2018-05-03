@@ -24,25 +24,40 @@ get '/test' do
 end
 
 
-# retrieve all tags on a certain post:
-get "/post/:post_id/tags" do
+
+# Actions related to tags:
+
+# WORKING: retrieve all tags on a certain post:
+get "/post/:post_id/tags" do    
     @post = Post.find(params[:post_id])
     @tags = @post.tags
     @tags.to_json
 end
 
-# retrieve all tags
+# WORKING: retrieve all tags
 get "/tag/all" do
     Tag.all.to_json
   end
 
-# retrieve posts for a certain tag:
+# WORKING: retrieve posts for a certain tag:
 get "/tag/:tag_name/posts" do
     # @tag = Tag.find(params[:tag_id])
     @tag = Tag.where(name: params[:tag_name])[0]
     @posts = @tag.posts
     @posts.to_json
 end
+
+# WORKING: Blogs have comments that have tags.  Get all the blogs that have a certain tag:
+get "/tag/:tag_name/blogs" do
+    @tag = Tag.where(name: params[:tag_name])[0]
+    @blogs = []
+    @tag.posts.each do |post|
+        @blogs.push(post)
+    end
+    @blogs.to_json
+end
+
+
 
 # delete a tag and remove all of it's references from the join table:
 delete "/tag/:tag_id/" do
