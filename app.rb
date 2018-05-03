@@ -20,13 +20,14 @@ get '/test' do
     @post = Post.find(1)
     @tags = @post.tags
 
+    p "@posts:"
+    p @posts
+  
     @tag = Tag.find(1)
     @posts = @tag.posts
 
     p "@tags:"
     p @tags
-
-    p "@posts:"
-    p @posts
+   
     "testing join table queries"
 end
