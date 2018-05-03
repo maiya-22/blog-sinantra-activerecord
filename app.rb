@@ -12,6 +12,10 @@ set :database, {adapter: 'postgresql', database: 'blog'}
 enable :sessions
 
 
+get '/' do
+    redirect '/test'
+end
+
 get '/test' do 
     @post = Post.find(1)
     @tags = @post.tags
