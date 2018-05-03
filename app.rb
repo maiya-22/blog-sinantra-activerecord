@@ -37,13 +37,16 @@ get "/tag/all" do
   end
 
 # retrieve posts for a certain tag:
-get "/tag/:tag_id/posts" do
-    @tag = Tag.find(params[:tag_id])
+get "/tag/:tag_name/posts" do
+    # @tag = Tag.find(params[:tag_id])
+    @tag = Tag.where(name: params[:tag_name])[0]
     @posts = @tag.posts
     @posts.to_json
 end
 
-# How to delete dependencies?
-# delete a tag and remove it from from the join table:
+# delete a tag and remove all of it's references from the join table:
 delete "/tag/:tag_id/" do
+    # delete the tag
+    # delete it off of the join table, but do not delete associated posts
+    
 end
