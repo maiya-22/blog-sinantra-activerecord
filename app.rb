@@ -57,7 +57,21 @@ get "/tag/:tag_name/blogs" do
     @blogs.to_json
 end
 
-
+# WORKING: get all of the tags that are on a certain blog
+get "/blog/:blog_id/tags" do
+   @blog = Blog.find(params[:blog_id])
+   @tags = []
+   @unique_tags_hash = {}
+   @blog.posts.each do |post|
+        post.tags.each do |tag|
+            unless @unique_tags_hash[tag.name.to_sym]
+                @tags.push(tag)
+            end
+            @unique_tags_hash[tag.name.to_sym] = true
+        end
+   end
+   @tags.to_json
+end
 
 # delete a tag and remove all of it's references from the join table:
 delete "/tag/:tag_id/" do
