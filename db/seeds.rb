@@ -75,7 +75,7 @@ end
         while(@random_tag_id ==  @last_random_id) do
             @random_tag_id = Random.new.rand(20) + 1 
         end
-        PostsTags.create({
+        PostsTag.create({
            post_id:  @post_id,
            tag_id:  @random_tag_id
        })
