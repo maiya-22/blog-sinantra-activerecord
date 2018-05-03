@@ -28,19 +28,29 @@ end
 # Actions related to tags:
 
 # WORKING: retrieve all tags on a certain post:
-get "/post/:post_id/tags" do    
+get "/post/:post_id/tag" do    
     @post = Post.find(params[:post_id])
     @tags = @post.tags
     @tags.to_json
 end
 
 # WORKING: retrieve all tags
-get "/tag/all" do
+get "/tag" do
     Tag.all.to_json
-  end
+end
+
+
+get "/tag/:tag_id" do
+    @tag = Tag.find(params[:tag_id])
+    @tag.to_json
+ end
+
+
+
+
 
 # WORKING: retrieve posts for a certain tag:
-get "/tag/:tag_name/posts" do
+get "/tag/:tag_name/post" do
     # @tag = Tag.find(params[:tag_id])
     @tag = Tag.where(name: params[:tag_name])[0]
     @posts = @tag.posts
@@ -48,7 +58,7 @@ get "/tag/:tag_name/posts" do
 end
 
 # WORKING: Blogs have comments that have tags.  Get all the blogs that have a certain tag:
-get "/tag/:tag_name/blogs" do
+get "/tag/:tag_name/blog" do
     @tag = Tag.where(name: params[:tag_name])[0]
     @blogs = []
     @tag.posts.each do |post|
@@ -58,7 +68,7 @@ get "/tag/:tag_name/blogs" do
 end
 
 # WORKING: get all of the tags that are on a certain blog
-get "/blog/:blog_id/tags" do
+get "/blog/:blog_id/tag" do
    @blog = Blog.find(params[:blog_id])
    @tags = []
    @unique_tags_hash = {}
@@ -78,4 +88,18 @@ delete "/tag/:tag_id/" do
     # delete the tag
     # delete it off of the join table, but do not delete associated posts
     
+end
+
+
+# in postman:
+# in the url: http://localhost:4567/tag/create
+# in the request body:  {"name":"newTagName"}
+post "/tag/create" do 
+    params = JSON.parse(request.body.read)
+    p "PARAMS"
+    p params["name"]
+     Tag.create({
+          name: params["name"]
+          })
+    redirect "/tag"
 end
