@@ -1,9 +1,21 @@
 The name of the database is "blog"
+
 To seed, run "rake db:seed" in the command-line
 Then comment-out the seed file, so that it does not create duplicate entries later.
 
+The relationships are:
+One to One:
+1 - User has one Demographic
+One to Many:
+2 - User has many Blogs
+One to Many
+3 - Blogs have many Posts
+One to Many
+4 - Posts have many Comments
+Many to Many
+5 - Comments have many Tags and Tags Have many Comments
+
+Goal:
+To understand how to set up and query these relationships.
+
 ###############
-
-Currently, trying to get the code in the "/test" route to run without errors.
-
-I need to figure out how to correctly set up the association between "posts", "tags", and a "posts_tags" join table. I have tried many different ways of naming the "posts_tags" table, and am still trying to get it to work.
