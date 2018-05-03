@@ -1,10 +1,12 @@
 class Post < ActiveRecord::Base
-    belongs_to :blog
+    
     # has_and_belongs_to_many :tags, :through => :posts_tags
 
-    has_many :poststags
-    has_many :tags, through: :poststags
-
+    
+    has_many :post_tags
+    has_many :tags, through: :post_tags
+    
+    belongs_to :blog
 
     # has_many :tags, through: :posts_tags
     # 
