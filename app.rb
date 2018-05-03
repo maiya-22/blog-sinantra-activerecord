@@ -42,3 +42,8 @@ get "/tag/:tag_id/posts" do
     @posts = @tag.posts
     @posts.to_json
 end
+
+# How to delete dependencies?
+# delete a tag and remove it from from the join table:
+delete "/tag/:tag_id/" do
+end
