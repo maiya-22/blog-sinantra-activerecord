@@ -34,19 +34,11 @@ get '/test' do
     p @posts
 
 
-
-    #THESE LINES ARE WORKING, BUT IT SEEMS LIKE A HACK
-    #WHAT IS THE BETTER WAY OF DOING THE QUERY? 
-    # @post = Post.find(1)
-    # @tags = Post_tag.where(post_id: @post.id)
-    # p @tags
-
-
     "testing join table queries"
 end
 
 
-# retrieve all tags
+# retrieve all tags WORKING
 get "/tags" do
     p " ***  ALL TAGS **  /n"
     p Tag.all.to_json
@@ -54,7 +46,22 @@ end
 
 # retrieve all tags on a certain post:
 get "/post/:post_id/tags" do
-    # p " ***  ALL TAGS ON A CERTAIN POST **  /n"
-    # @post = post.find(params[:post_id])
-    # @tags = @post.tags
+    p " ***  ALL TAGS ON A CERTAIN POST **  /n"
+    @post = Post.find(params[:post_id])
+    p "@post"
+    p @post
+
+    # NOT WORKING, BUT I THINK THEY SHOULD:
+    # p "@post.tags"
+    # p @post.tags
+
+
+    @tags = Post_tag.where(post_id: @post.id)
+    
+  
+    # @tags = Post_tag.where(post_id: @post.id).tags
+    # p "@tags"
+    # p @tags
+
+    "testing"
 end
