@@ -6,20 +6,24 @@ Then comment-out the seed file, so that it does not create duplicate entries lat
 The relationships are:
 
 One to One:
-1 - User has one Demographic
+
+* User has one Demographic
 
 One to Many:
-2 - User has many Blogs
+
+* User has many Blogs
 
 One to Many
-3 - Blogs have many Posts
+
+* Blogs have many Posts
 
 One to Many
 
-4 - Posts have many Comments
+* Posts have many Comments
 
 Many to Many
-5 - Comments have many Tags and Tags Have many Comments
+
+* Comments have many Tags and Tags Have many Comments
 
 Goal:
 To understand how to set up and query these relationships.
