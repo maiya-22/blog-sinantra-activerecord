@@ -13,6 +13,7 @@ set :database, {adapter: 'postgresql', database: 'blog'}
 enable :sessions
 
 
+
 get '/' do
     redirect '/test'
 end
@@ -23,6 +24,13 @@ get '/test' do
     @posts.to_json
 end
 
+
+# *********************************************************************************************
+# ACTIONS RELATED TO POSTS:
+
+
+
+# *********************************************************************************************
 # ACTIONS RELATED TO TAGS:
 
 # WORKING: retrieve all tags on a certain post:
@@ -91,19 +99,19 @@ post "/tag/create" do
 end
 
 # NOT WORKING 
-# The original tag was being deleted;  but getting erros when try to delete dependencies.
+# The original tag was being deleted;  but getting erros when try to
 # In postman:  
+# QUESTION: How to destroy a collection.  Why was looping through the collection
+# and destroying each association not working?
+# how to set up models to automatically destroy all dependencies
+# how to se tup models to only destroy some dependencies (ie delete the PostTag, but not the posts)
+# Maybe this is why some tutorials say that you should have the 'has_and_belongs_to_many' ?
 # in the url: DELETE  http://localhost:4567/tag/destroy
 # in the request body {"tag_name":"tagNameToDestroy"}
 delete "/tag/destroy" do
-    params = JSON.parse(request.body.read)
-    @tag_to_destroy = Tag.where({name: params["tag_name"]})[0]
-    unless @tag_to_destroy == nil
-       @associations =  PostTag.where({tag_id: @tag_to_destroy.id})
-        unless @associations.length == 0
-            @associations.destroy_all
-        end
-        Tag.destroy(@tag_to_destroy.id)
-    end
+    params = JSON.parse request.body.read
+    @tag = Tag.where(name: params["tag_name"])[0].id
+    PostTag.where(tag_id: @id).destroy_all
+    @tag.destroy
     redirect "/tag"
 end
