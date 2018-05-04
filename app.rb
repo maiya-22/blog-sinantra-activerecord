@@ -90,17 +90,20 @@ post "/tag/create" do
     redirect "/tag"
 end
 
-# WORKING delete a tag
+# NOT WORKING 
+# The original tag was being deleted;  but getting erros when try to delete dependencies.
 # In postman:  
 # in the url: DELETE  http://localhost:4567/tag/destroy
-# in the request body {"name":"newTagName"}
+# in the request body {"tag_name":"tagNameToDestroy"}
 delete "/tag/destroy" do
     params = JSON.parse(request.body.read)
-    @tag_to_delete = Tag.where(name: params["tag_name"])[0]
-    unless @tag_to_delete == nil
-        Tag.destroy(@tag_to_delete.id)
+    @tag_to_destroy = Tag.where({name: params["tag_name"]})[0]
+    unless @tag_to_destroy == nil
+       @associations =  PostTag.where({tag_id: @tag_to_destroy.id})
+        unless @associations.length == 0
+            @associations.destroy_all
+        end
+        Tag.destroy(@tag_to_destroy.id)
     end
     redirect "/tag"
 end
-
-
