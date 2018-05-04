@@ -36,16 +36,13 @@ end
 
 # WORKING: gets posts by id or by title
 get "/post/:identifier" do
-    @int = Integer(params[:identifier]) rescue false #returns false if not an integer
-    if(@int)
-        Post.find(@int).to_json
+    @identifier_is_integer = Integer(params[:identifier]) rescue false #returns false if not an integer
+    if @identifier_is_integer
+         @post = Post.find(params[:identifier])
+        if @post == nil then redirect "/" else @post.to_json end
     else
         @posts = Post.where(title: params[:identifier])
-        if(@posts.length < 1)
-            redirect "/"
-        else
-            @posts.to_json
-        end
+        if @posts.length < 1 then redirect "/" else @posts.to_json end
     end
 end
 
