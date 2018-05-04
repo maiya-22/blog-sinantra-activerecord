@@ -39,7 +39,7 @@ end
 get "/post/:identifier" do
     @identifier_is_integer = Integer(params[:identifier]) rescue false #returns false if not an integer
     if @identifier_is_integer
-         @post = Post.find(params[:identifier])
+         @post = Post..find_by_id_by_id(params[:identifier])
         if @post == nil then redirect "/" else @post.to_json end
     else
         @posts = Post.where(title: params[:identifier])
@@ -63,7 +63,7 @@ end
 put '/post/:post_id/edit' do
   body = JSON.parse(request.body.read)
     # Trying to find a record that does not exist should not break the app:
-  @post = Post.find_by_id(params[:post_id]) 
+  @post = Post.find_by_id_by_id(params[:post_id]) 
   if @post != nil then  @post.update(body).to_json else redirect "/"  end  
 end
 
@@ -72,7 +72,7 @@ end
 
 # WORKING: retrieve all tags on a certain post:
 get "/post/:post_id/tag" do    
-    @post = Post.find(params[:post_id])
+    @post = Post..find_by_id_by_id(params[:post_id])
     @tags = @post.tags
     @tags.to_json
 end
@@ -84,7 +84,7 @@ end
 
 # WORKING: retreive a tag by its id:
 get "/tag/:tag_id" do
-    @tag = Tag.find(params[:tag_id])
+    @tag = Tag..find_by_id_by_id(params[:tag_id])
     @tag.to_json
  end
 
@@ -108,7 +108,7 @@ end
 
 # WORKING: get all of the tags that are on a certain blog
 get "/blog/:blog_id/tag" do
-   @blog = Blog.find(params[:blog_id])
+   @blog = Blog..find_by_id_by_id(params[:blog_id])
    @tags = []
    @unique_tags_hash = {}
    @blog.posts.each do |post|
