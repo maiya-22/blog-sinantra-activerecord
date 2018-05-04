@@ -19,15 +19,46 @@ get '/' do
 end
 
 get '/test' do 
-    @tag = Tag.find(1)
-    @posts = @tag.posts
-    @posts.to_json
+    # @tag = Tag.find(1)
+    # @posts = @tag.posts
+    # @posts.to_json
+    "testing"
 end
 
 
 # *********************************************************************************************
 # ACTIONS RELATED TO POSTS:
 
+# WORKING: get all posts and order most recent:
+get "/post" do
+    Post.all.order(id: :desc).limit(20).to_json
+end
+
+# WORKING: gets posts by id or by title
+get "/post/:identifier" do
+    @int = Integer(params[:identifier]) rescue false #returns false if not an integer
+    if(@int)
+        Post.find(@int).to_json
+    else
+        @posts = Post.where(title: params[:identifier])
+        if(@posts.length < 1)
+            redirect "/"
+        else
+            @posts.to_json
+        end
+    end
+end
+
+
+# WORKING: create a new post:
+# in postman:
+# in the url: POST http://localhost:4567/tag/create
+# in the request body:  {"title":"I am the title","content": "I am the content"}
+post '/post/create' do
+    params = JSON.parse request.body.read
+    @new_post = Post.create(params)
+    @new_post.to_json
+end
 
 
 # *********************************************************************************************
