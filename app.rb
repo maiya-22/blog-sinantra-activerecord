@@ -57,15 +57,13 @@ post '/post/create' do
     @new_post.to_json
 end
 
-# NEEDS WORK
-# Is editing a post that exists, but if you try to find a record that does
-# not exist, the app breaks:
-# postman url: http://localhost:4567/post/202/edit
-# json body: {"title":"new title", content":"some content"} can have one or both keys
+#WORKING
+# postman: url: http://localhost:4567/post/202/edit
+# json body: {"title":"new title", content":"some new content"} can have one or both keys
 put '/post/:post_id/edit' do
   body = JSON.parse(request.body.read)
     # Trying to find a record that does not exist should not break the app:
-  @post = Post.find(params[:post_id]) 
+  @post = Post.find_by_id(params[:post_id]) 
   if @post != nil then  @post.update(body).to_json else redirect "/"  end  
 end
 
