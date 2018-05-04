@@ -3,6 +3,8 @@ The name of the database is "blog"
 To seed, run "rake db:seed" in the command-line
 Then comment-out the seed file, so that it does not create duplicate entries later.
 
+# Use Postman to make requests. Put the body of the request (form fields) in the "Body" tab of postman:
+
 ![alt text](https://raw.githubusercontent.com/maiya-22/blog-sinatra-active-record/master/images_for_readme/put_request_postman.png)
 
 The relationships are:
