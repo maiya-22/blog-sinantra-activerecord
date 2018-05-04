@@ -12,7 +12,9 @@ set :database, {adapter: 'postgresql', database: 'blog'}
 
 enable :sessions
 
-
+# USE POSTMAN TO TEST THESE ROUTES:
+# https://www.getpostman.com/products
+# put the form-fields as a JSON object in the 'body' panel of the postman app
 
 get '/' do
     redirect '/test'
@@ -24,7 +26,6 @@ get '/test' do
     # @posts.to_json
     "testing"
 end
-
 
 # *********************************************************************************************
 # ACTIONS RELATED TO POSTS:
@@ -46,7 +47,6 @@ get "/post/:identifier" do
     end
 end
 
-
 # WORKING: create a new post:
 # in postman:
 # in the url: POST http://localhost:4567/tag/create
@@ -57,6 +57,17 @@ post '/post/create' do
     @new_post.to_json
 end
 
+# NEEDS WORK
+# Is editing a post that exists, but if you try to find a record that does
+# not exist, the app breaks:
+# postman url: http://localhost:4567/post/202/edit
+# json body: {"title":"new title", content":"some content"} can have one or both keys
+put '/post/:post_id/edit' do
+  body = JSON.parse(request.body.read)
+    # Trying to find a record that does not exist should not break the app:
+  @post = Post.find(params[:post_id]) 
+  if @post != nil then  @post.update(body).to_json else redirect "/"  end  
+end
 
 # *********************************************************************************************
 # ACTIONS RELATED TO TAGS:
