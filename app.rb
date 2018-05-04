@@ -16,6 +16,18 @@ enable :sessions
 # https://www.getpostman.com/products
 # put the form-fields as a JSON object in the 'body' panel of the postman app
 
+
+# *********************************************************************************************
+
+# HELPER FUNCTIONS
+
+def filter_non_integer(value)
+    Integer(value) rescue false #returns false if not an integer or else returns the integer
+end
+
+# *********************************************************************************************
+
+
 get '/' do
     redirect '/test'
 end
@@ -37,9 +49,9 @@ end
 
 # WORKING: gets posts by id or by title
 get "/post/:identifier" do
-    @identifier_is_integer = Integer(params[:identifier]) rescue false #returns false if not an integer
-    if @identifier_is_integer
-         @post = Post..find_by_id_by_id(params[:identifier])
+    @capture_integer = filter_non_integer(params[:identifier])
+    if @capture_integer
+         @post = Post..find_by_id_by_id(@capture_integer)
         if @post == nil then redirect "/" else @post.to_json end
     else
         @posts = Post.where(title: params[:identifier])
@@ -67,6 +79,15 @@ put '/post/:post_id/edit' do
   if @post != nil then  @post.update(body).to_json else redirect "/"  end  
 end
 
+# IN PROGRESS
+# delete a post and all of its comment
+delete '/post/:identifier/destroy' do
+    @capture_integer = filter_non_integer(params[:identifier])
+    if(@capture_integer)
+        @post_to_delete = Post.find_by_id_by_id(capture_integer)
+    end
+end
+
 # *********************************************************************************************
 # ACTIONS RELATED TO TAGS:
 
@@ -90,7 +111,7 @@ get "/tag/:tag_id" do
 
 # WORKING: retrieve posts for a certain tag:
 get "/tag/:tag_name/post" do
-    # @tag = Tag.find(params[:tag_id])
+    # change to find by:
     @tag = Tag.where(name: params[:tag_name])[0]
     @posts = @tag.posts
     @posts.to_json
@@ -136,13 +157,13 @@ post "/tag/create" do
 end
 
 # NOT WORKING 
-# The original tag was being deleted;  but getting erros when try to
-# In postman:  
+# The original tag was being deleted;  but getting erros when try to delete dependencies
 # QUESTION: How to destroy a collection.  Why was looping through the collection
 # and destroying each association not working?
 # how to set up models to automatically destroy all dependencies
 # how to se tup models to only destroy some dependencies (ie delete the PostTag, but not the posts)
 # Maybe this is why some tutorials say that you should have the 'has_and_belongs_to_many' ?
+# In postman:  
 # in the url: DELETE  http://localhost:4567/tag/destroy
 # in the request body {"tag_name":"tagNameToDestroy"}
 delete "/tag/destroy" do
