@@ -42,13 +42,6 @@ get '/' do
     redirect '/test'
 end
 
-get '/test' do 
-    # @tag = Tag.find(1)
-    # @posts = @tag.posts
-    # @posts.to_json
-    "testing"
-end
-
 # *********************************************************************************************
 # ACTIONS RELATED TO USERS:
 
@@ -191,4 +184,35 @@ delete "/tag/destroy" do
     PostTag.where(tag_id: @id).destroy_all
     @tag.destroy
     redirect "/tag"
+end
+
+
+# TEST ROUTES:
+# *********************************************************************************************
+# ACTIONS RELATED TO DELETING AND DESTROYING DEPENDENCIES, AND LOOPING OVER COLLECTIONS OF DEPENDENCIES:
+# need to understand 
+# 1) how to set these up in the models so that they happen automatically
+# 2) how to do them manually
+
+
+# loop over the tags associated with a given test:
+get "/test/post/:id/loop/tags" do
+    @post = Post.find_by_id_by_id(params[:id])
+    @tags = post.tags
+    @all_associated_tags = []
+    @tags.each do |tag|
+        @all_associated_tags.push(tag.name)
+    end
+    @all_associated_tags.to_json
+end
+
+  # @tag = Tag.find(1)
+    # @posts = @tag.posts
+    # @posts.to_json
+ # GET 
+
+#  find a tag
+
+get '/test' do 
+    "testing"
 end
