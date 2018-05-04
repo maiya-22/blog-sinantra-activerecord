@@ -105,9 +105,20 @@ end
 
 # WORKING: retrieve all tags on a certain post:
 get "/post/:post_id/tag" do    
-    @post = Post..find_by_id_by_id(params[:post_id])
+    @post = Post.find_by_id(params[:post_id])
     @tags = @post.tags
     @tags.to_json
+end
+# WORKING test route:
+# get all of the tag names associated with a certain post manually, by looping:
+get "/test/post/:post_id/tag" do
+    @post = Post.find_by_id(params[:post_id])
+    @tags = @post.tags
+    @all_associated_tags = []
+    @tags.each do |tag|
+        @all_associated_tags.push(tag.name)
+    end
+    @all_associated_tags.to_json
 end
 
 # WORKING: retrieve all tags
@@ -168,36 +179,12 @@ post "/tag/create" do
     redirect "/tag"
 end
 
-# NOT WORKING 
-# The original tag was being deleted;  but getting erros when try to delete dependencies
-# QUESTION: How to destroy a collection.  Why was looping through the collection
-# and destroying each association not working?
-# how to set up models to automatically destroy all dependencies
-# how to se tup models to only destroy some dependencies (ie delete the PostTag, but not the posts)
-# Maybe this is why some tutorials say that you should have the 'has_and_belongs_to_many' ?
-# In postman:  
-# in the url: DELETE  http://localhost:4567/tag/destroy
-# in the request body {"tag_name":"tagNameToDestroy"}
-
-# here:
-# trying to do two different things, and neither of them are working:
-    # 1) loop through the "associations_to_destroy" and destroy each association one at a time:
-    # 2) grab the association and destroy it all at once.
-    # I want to be able to do both of these things 
+# this is working to destroy a tag and remove its associations form the "posts_tags" table
 delete "/tag/destroy" do
     body = JSON.parse request.body.read  
-    @tag_to_destroy = Tag.where(body)[0] #as long as the body keys match the table keys, can just pass the body as a hash
-    @tag_id = @tag_to_destroy.id
-    @associations_to_destroy = PostTag.where({tag_id: @tag_id})  #is succesfully grabbing these entries:
-    # try destroy all at once: 
-    # @associations.destroy_all  #this line not working
-    # try to loop through and destroy one by one:
-    @associations_to_destroy.each do |association|
-        p "association:"
-        p association  #this line working
-        # association.destroy  #this line not working
-    end
-    @associations_to_destroy.to_json
+    @tag_to_destroy = Tag.where(body)[0] 
+    @tag_to_destroy.destroy
+    redirect "/tag"
 end
 
 
@@ -235,14 +222,7 @@ end
 
 
 # *********************************************************************************************
-# WORKING:
-# loop over the tags associated with a given test:
-get "/test/post/:id/loop/tags" do
-    @post = Post.find_by_id(params[:id])
-    @tags = @post.tags
-    @all_associated_tags = []
-    @tags.each do |tag|
-        @all_associated_tags.push(tag.name)
-    end
-    @all_associated_tags.to_json
-end
+# ALL DESTROY ACTIONS:
+
+
+
