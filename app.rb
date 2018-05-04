@@ -25,7 +25,8 @@ def filter_non_integer(value)
     Integer(value) rescue false #returns false if not an integer or else returns the integer
 end
 
-def exists?(model, key_value_hash)
+# test to make sure works:
+def record_exists?(model, key_value_hash)
     model.where(key_value_hash)[0] != nil ? true : false
 end
 
