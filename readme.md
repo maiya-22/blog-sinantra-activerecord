@@ -3,6 +3,8 @@ The name of the database is "blog"
 To seed, run "rake db:seed" in the command-line
 Then comment-out the seed file, so that it does not create duplicate entries later.
 
+![alt text](https://github.com/maiya-22/blog-sinatra-active-record/master/path/to/img.png)
+
 The relationships are:
 
 One to One:
