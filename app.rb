@@ -26,7 +26,7 @@ def filter_non_integer(value)
 end
 
 # test to make sure works:  see if a record exists, option to return original or not
-def matching_record(model, key_value_hash, return_record)
+def matching_record(model, key_value_hash, return_record=false)
     @record = model.where(key_value_hash)[0]
     @exists = @record != nil ? true : false
     if(return_record && @exists)
