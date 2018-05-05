@@ -16,7 +16,6 @@ enable :sessions
 # https://www.getpostman.com/products
 # put the form-fields as a JSON object in the 'body' panel of the postman app
 
-
 # *********************************************************************************************
 
 # HELPER FUNCTIONS
@@ -63,7 +62,7 @@ end
 get "/post/:identifier" do
     @capture_integer = filter_non_integer(params[:identifier])
     if @capture_integer
-         @post = Post..find_by_id_by_id(@capture_integer)
+         @post = Post.find_by_id(@capture_integer)
         if @post == nil then redirect "/" else @post.to_json end
     else
         @posts = Post.where(title: params[:identifier])
@@ -86,18 +85,23 @@ end
 # json body: {"title":"new title", content":"some new content"} can have one or both keys
 put '/post/:post_id/edit' do
   body = JSON.parse(request.body.read)
-    # Trying to find a record that does not exist should not break the app:
-  @post = Post.find_by_id_by_id(params[:post_id]) 
-  if @post != nil then  @post.update(body).to_json else redirect "/"  end  
+  @post = Post.find_by_id(params[:post_id]) 
+  if(@post != nil)
+    @post = @post.update(body)
+  else
+    "could not find that post"
+  end
+  redirect "/post/#{params[:post_id]}"    
 end
 
-# IN PROGRESS
+# WORKING: 
+# postman: url: http://localhost:4567/post/destroy
+# json body: {"title":"the title", content":"the content"} can have one or both keys
 # delete a post and all of its comment
-delete '/post/:identifier/destroy' do
-    @capture_integer = filter_non_integer(params[:identifier])
-    if(@capture_integer)
-        @post_to_delete = Post.find_by_id_by_id(capture_integer)
-    end
+delete '/post/destroy' do
+    body = JSON.parse(request.body.read)
+    Post.where(body)[0].destroy
+    redirect "/"
 end
 
 # *********************************************************************************************
@@ -179,6 +183,8 @@ post "/tag/create" do
     redirect "/tag"
 end
 
+# WORKING
+# this route will work, as long as the body contains {id: number} or {name: "string"}
 # this is working to destroy a tag and remove its associations form the "posts_tags" table
 delete "/tag/destroy" do
     body = JSON.parse request.body.read  
@@ -187,15 +193,14 @@ delete "/tag/destroy" do
     redirect "/tag"
 end
 
-
 # TEST ROUTES:
 # *********************************************************************************************
 # ACTIONS RELATED TO DELETING AND DESTROYING DEPENDENCIES, AND LOOPING OVER COLLECTIONS OF DEPENDENCIES:
-# need to understand 
-# 1) how to set these up in the models so that they happen automatically
-# 2) how to do them manually
+# 1) how to set these up in the models so that they happen automatically?
+# 2) how to do them manually?
 
 
+# IN PROGRESS:
 # REMOVE ALL THE TAGS FROM A POST:
 # destroy a post and is comments and those comment's tags, and 
 delete "/test/post/:post_id/tag/destroy" do
@@ -203,6 +208,7 @@ delete "/test/post/:post_id/tag/destroy" do
     
 end
 
+# IN PROGRESS:
 delete "/test/post/:id/destroy" do
 end
 

@@ -6,7 +6,7 @@ class Post < ActiveRecord::Base
     # has_many :post_tags, dependent: :destroy
     # has_many :tags, through: :post_tags
     belongs_to :blog
-    has_and_belongs_to_many :posts, :through => :posts_tags
+    has_and_belongs_to_many :tags, :through => :posts_tags
     # has_many :tags, through: :posts_tags
     # 
     # belogs_to : 
@@ -16,5 +16,5 @@ class Post < ActiveRecord::Base
     # has_and_belongs_to_many :tags
     # when do you use the 'through statement below:'?
     #has_and_belongs_to_many :tags, :through => :posts_tags  #param :join_table => :custom_name
-    has_many :comments
+    has_many :comments, dependent: :destroy
 end
