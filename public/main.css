@@ -1,0 +1,16 @@
+body {
+}
+#frame {
+  width: 80%;
+  margin: auto;
+}
+
+/* INDEX VIEW */
+
+.blogSummaryWrap {
+  border: solid gainsboro 2px;
+  border-radius: 3px;
+  background-color: rgb(236, 235, 235);
+  margin-bottom: 1rem;
+  padding: 0.25rem 1rem 0.5rem 2rem;
+}

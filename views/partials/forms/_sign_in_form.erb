@@ -1,0 +1,12 @@
+<form id="signIn" action="/sign-in" method="post">
+<h1>Sign In</h1>
+    <label for="user_name">User Name</label>
+    <input id="newUserName" type="text" name="user_name">
+    <label for="password">password</label>
+    <input type="text" name="password">
+    <input type="submit" value="Submit">
+    <%#test comment%>
+    <% if @already_exists_error %>
+        <p class="error">that user aready exists. please try again</p>
+    <%end%>
+</form>

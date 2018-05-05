@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_04_210833) do
+ActiveRecord::Schema.define(version: 2018_05_02_205623) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,6 +19,8 @@ ActiveRecord::Schema.define(version: 2018_05_04_210833) do
     t.string "title"
     t.string "summary"
     t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_blogs_on_user_id"
   end
 
@@ -27,6 +29,8 @@ ActiveRecord::Schema.define(version: 2018_05_04_210833) do
     t.integer "likes", default: 0
     t.bigint "post_id"
     t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["post_id"], name: "index_comments_on_post_id"
     t.index ["user_id"], name: "index_comments_on_user_id"
   end
@@ -43,12 +47,16 @@ ActiveRecord::Schema.define(version: 2018_05_04_210833) do
     t.string "title", default: "title here"
     t.string "content", default: "content here"
     t.bigint "blog_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["blog_id"], name: "index_posts_on_blog_id"
   end
 
   create_table "posts_tags", id: false, force: :cascade do |t|
-    t.integer "post_id"
-    t.integer "tag_id"
+    t.bigint "tag_id"
+    t.bigint "post_id"
+    t.index ["post_id"], name: "index_posts_tags_on_post_id"
+    t.index ["tag_id"], name: "index_posts_tags_on_tag_id"
   end
 
   create_table "tags", force: :cascade do |t|

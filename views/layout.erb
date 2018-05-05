@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+</head>
+
+<body>
+    <div id="frame">
+    <%#if make a sign-up and sign-in bar%>
+    <%#if there is no one signed in, render the sign-in and sign-up forms%>
+    <%unless signed_in %>
+        <%= erb "partials/forms/_sign_in_form".to_sym %>
+        <%= erb "partials/forms/_sign_up_form".to_sym %>
+    <% end %>
+    <header>
+        <h1>BLOG SITE<h1>
+    </header>
+    <%= yield%>
+    </div>
+</body>
+
+</html>

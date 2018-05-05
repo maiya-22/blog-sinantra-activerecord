@@ -34,20 +34,43 @@ def matching_record(model, key_value_hash, return_record=false)
     @exists
 end
 
+def signed_in?
+    # not sure if the session[:id] automatically exists as nil, or if we create it from scratch?
+    p session.has_key?(:id)
+    session[:id] != nil
+end
+
 # *********************************************************************************************
 
 
 get '/' do
-    redirect '/test'
+    # hard-code sign-in:
+    # session[:id] = 4
+    # session[:user_name] = User.find_by_id(session[:id]).user_name
+    
+    # hard-code sign-out:
+     session[:id] = nil
+    session[:user_name] = nil
+
+    @blogs = signed_in? ? Blog.where({user_id: session[:id]}).order(created_at: :desc) : Blog.all.shuffle
+    if(signed_in?)
+    end 
+    erb :index, :layout => true, :locals => {:signed_in => signed_in?,:user_name => session[:user_name] || nil, :blogs => @blogs}
 end
 
 # *********************************************************************************************
 # ACTIONS RELATED TO USERS:
 
-# sign up:
+# get ONLY the html string for the sign-up form:
+get '/user/new' do
+    # create an 'error_already_exists' key on the sessions object, and give it a default value:
+    session[:already_exists_error] = false
+    # Rendering partial directly from app, for now:
+    erb "partials/forms/_sign_up_form".to_sym, :layout => false, locals: {signed_in: signed_in?, already_exists_error: session[:already_exists_error]}
+end
 
 post "/user/create" do
-    @new_properties
+     
 end
 
 # *********************************************************************************************
@@ -107,13 +130,21 @@ end
 # *********************************************************************************************
 # ACTIONS RELATED TO TAGS:
 
-# WORKING: retrieve all tags on a certain post:
+# STILL WORKING
+# start with tag name, and find all of its posts:
+get "/tag/:tag_name/post" do
+    @tag = Tag.where({name: params[:tag_name]})[0]
+    @tag.posts.to_json
+end
+
+
+# STILL WORKING: retrieve all tags on a certain post:
 get "/post/:post_id/tag" do    
     @post = Post.find_by_id(params[:post_id])
     @tags = @post.tags
     @tags.to_json
 end
-# WORKING test route:
+# STILL WORKING test route:
 # get all of the tag names associated with a certain post manually, by looping:
 get "/test/post/:post_id/tag" do
     @post = Post.find_by_id(params[:post_id])
@@ -125,14 +156,14 @@ get "/test/post/:post_id/tag" do
     @all_associated_tags.to_json
 end
 
-# WORKING: retrieve all tags
+# STILL WORKING: retrieve all tags
 get "/tag" do
     Tag.all.to_json
 end
 
 # WORKING: retreive a tag by its id:
 get "/tag/:tag_id" do
-    @tag = Tag..find_by_id_by_id(params[:tag_id])
+    @tag = Tag.find_by_id(params[:tag_id])
     @tag.to_json
  end
 
@@ -154,7 +185,8 @@ get "/tag/:tag_name/blog" do
     @blogs.to_json
 end
 
-# WORKING: get all of the tags that are on a certain blog
+# BROKEN: 
+# get all of the tags that are on a certain blog
 get "/blog/:blog_id/tag" do
    @blog = Blog..find_by_id_by_id(params[:blog_id])
    @tags = []
@@ -183,9 +215,9 @@ post "/tag/create" do
     redirect "/tag"
 end
 
-# WORKING
+# NOT WORKING leaving orphans
 # this route will work, as long as the body contains {id: number} or {name: "string"}
-# this is working to destroy a tag and remove its associations form the "posts_tags" table
+# STOPPED working to destroy a tag and remove its associations form the "posts_tags" table
 delete "/tag/destroy" do
     body = JSON.parse request.body.read  
     @tag_to_destroy = Tag.where(body)[0] 
