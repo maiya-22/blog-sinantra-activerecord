@@ -6,25 +6,33 @@
     <title>Page Title</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
-    <script src="main.js"></script>
+    
 </head>
 
 <body>
     <div id="frame">
-
-    <%if signed_in %>
-    <a href="/sign-out" class="link">sign out</a>
-    <% else %>
-        <% does_not_exist_error %>
-        <%= erb "partials/forms/_sign_in_form".to_sym, :locals => { :does_not_exist_error => does_not_exist_error } %>
-        <%= erb "partials/forms/_sign_up_form".to_sym %>
-    <% end %>
-    
+    <div id="navbar">
+        <%if signed_in %>
+        <a href="/sign-out" class="link">sign out</a>
+        <% else %>
+            <% does_not_exist_error %>
+            <%= erb "partials/forms/_sign_in_form".to_sym, :locals => { :does_not_exist_error => does_not_exist_error } %>
+            <%= erb "partials/forms/_sign_up_form".to_sym %>
+        <% end %>
+   
     <header>
         <h1>BLOG SITE<h1>
+    <%if signed_in %>
+        <p>Hi, <%=user_name%>. You are signed in.  Here is a list of your blogs:</p>
+    <% else %>
+        <p>This is a list of all the blogs on our site:</p>
+    <% end %>
+
     </header>
+    </div>
     <%= yield%>
     </div>
+    <script src="main.js"></script>
 </body>
 
 </html>

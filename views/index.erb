@@ -1,10 +1,5 @@
 
 <% does_not_exist_error %>
-<%if signed_in %>
-    <p>Hi, <%=user_name%>. You are signed in.  Here is a list of your blogs:</p>
-<% else %>
-    <p>This is a list of all the blogs on our site</p>
-<% end %>
 
 <%blogs.each do |blog|%>
     <div class="blogSummaryWrap">
