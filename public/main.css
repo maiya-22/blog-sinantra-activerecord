@@ -25,13 +25,14 @@ a {
 
 .link:hover,
 a:hover {
-  color: rgb(226, 102, 0);
+  color: orange;
   background-color: white;
   /* background-color: rgb(181, 219, 255); */
 }
 
 /* INDEX VIEW */
 
+/* BLOG SUMMARY */
 .blogSummaryWrap {
   border: solid gainsboro 2px;
   border-radius: 3px;
@@ -40,17 +41,33 @@ a:hover {
   padding: 0.25rem 1rem 1rem 2rem;
 }
 
+.blogTitle {
+  color: rgb(226, 102, 0);
+  letter-spacing: 3px;
+}
+
 .tagWrap {
   display: inline-block;
   padding: 0.2rem;
   border-radius: 5px;
   margin-bottom: 0.2rem;
+  /* border: orange solid 1px; */
   font-family: "Times New Roman", Times, serif;
   font-variant: small-caps;
 }
 
 .tagWrap:hover {
   background-color: rgba(172, 255, 47, 0.24);
+}
+
+.tagTitle {
+  display: inline-block;
+}
+
+.tagDisplayWrap {
+  /* border: solid lightgreen 3px; */
+  margin-bottom: 2rem;
+  clear: both;
 }
 
 /* SIGN IN AND SIGN UP FORMS */
