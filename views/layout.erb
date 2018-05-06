@@ -21,11 +21,11 @@
         <% end %>
    
     <header>
-        <h1>BLOG SITE<h1>
+        <h1 id="siteTitle">BLOG SITE<h1>
     <%if signed_in %>
-        <p>Hi, <%=user_name%>. You are signed in.  Here is a list of your blogs:</p>
+        <p id="siteTagLine">Hi, <%=user_name%>. You are signed in.  Here is a list of your blogs:</p>
     <% else %>
-        <p>This is a list of all the blogs on our site:</p>
+        <p id="siteTagLine">All the blogs on our site:</p>
     <% end %>
 
     </header>
