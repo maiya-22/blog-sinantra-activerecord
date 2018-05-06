@@ -42,7 +42,6 @@ def signed_in?
 end
 
 
-
 before do
     params.delete(:captures) if params.key?(:captures) && params[:captures].empty?
 end
@@ -65,10 +64,13 @@ get '/' do
     erb :index, :layout => true, :locals => {:signed_in => signed_in?,:user_name => session[:user_name] || nil, :blogs => @blogs, :does_not_exist_error => does_not_exist_error || false}
 end
 
+# change to a post route:
 get '/sign-out' do
     reset_session
     redirect '/'
 end
+
+
 
 post '/sign-in' do
     # so that request can come from the form or from postman:
@@ -91,6 +93,9 @@ post "/sign-up" do
      
 end
 
-
+# send all miscelaneous routes to the root route
+get "/*" do
+    redirect "/"
+end
 
 
