@@ -41,23 +41,28 @@ def signed_in?
     session[:id] != nil
 end
 
-def parse_body(body)
-end
+
 
 before do
     params.delete(:captures) if params.key?(:captures) && params[:captures].empty?
 end
-def reset_session 
+def clear_session_errors
+    session[:does_not_exists_error] = false
+end
+def reset_session
     session[:id] = nil
-    session[:does_not_exists_error] = nil
+    clear_session_errors
 end
 
-get '/' do
-    session[:already_exists_error] = session[:already_exists_error] || nil
+# to do: make a route that sends the error status to an ajax call
+# make an ajax call that will trigger re-setting errors to none 
+
+
+get '/' do 
+    does_not_exist_error = session[:does_not_exist_error] #capture this error if it was set by the sign-in route
+    session[:does_not_exist_error] = false # clear the error for later page refreshes
     @blogs = params[:id] != nil ? Blog.where({user_id: session[:id]}).order(created_at: :desc) : Blog.all.shuffle
-    if(signed_in?)
-    end 
-    erb :index, :layout => true, :locals => {:signed_in => signed_in?,:user_name => session[:user_name] || nil, :blogs => @blogs, :does_not_exists_error => session[:does_not_exists_error]}
+    erb :index, :layout => true, :locals => {:signed_in => signed_in?,:user_name => session[:user_name] || nil, :blogs => @blogs, :does_not_exist_error => does_not_exist_error || false}
 end
 
 get '/sign-out' do
@@ -71,7 +76,7 @@ post '/sign-in' do
     @user = User.where(body)[0]
     @users = User.all
     if(@user == nil)
-        session[:does_not_exists_error] = true
+        session[:does_not_exist_error] = true
         redirect "/"
     else
         session[:id] = @user.id

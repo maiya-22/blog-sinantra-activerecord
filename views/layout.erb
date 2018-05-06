@@ -15,7 +15,8 @@
     <%if signed_in %>
     <a href="/sign-out">sign out</a>
     <% else %>
-        <%= erb "partials/forms/_sign_in_form".to_sym, :locals => { :does_not_exists_error => :does_not_exists_error } %>
+        <% does_not_exist_error %>
+        <%= erb "partials/forms/_sign_in_form".to_sym, :locals => { :does_not_exist_error => does_not_exist_error } %>
         <%= erb "partials/forms/_sign_up_form".to_sym %>
     <% end %>
     

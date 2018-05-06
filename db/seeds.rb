@@ -27,7 +27,7 @@ end
     5.times do 
         Blog.create([
             title: Faker::Book.title ,
-            summary:Faker::Lorem.sentence(5), 
+            summary:Faker::Lorem.sentence(10), 
             user_id: id
         ])
         id += 1
