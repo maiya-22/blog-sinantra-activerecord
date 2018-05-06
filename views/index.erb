@@ -9,7 +9,7 @@
 <%blogs.each do |blog|%>
     <div class="blogSummaryWrap">
         <h4><em>title:</em> <%= blog.title%></h4>
-        <a href="/blog/<%=blog.id%>/view">view this blog</a>
+        <a href="/blog/<%=blog.id%>/view" class="link">view this blog</a>
         <%if !signed_in %>
             <p>by: <%=blog.user.user_name%></p>
         <%end%>

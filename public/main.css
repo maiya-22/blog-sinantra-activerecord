@@ -1,8 +1,18 @@
 body {
+  background-color: rgb(62, 108, 183);
 }
 #frame {
   width: 80%;
   margin: auto;
+}
+
+/* BUTTONS AND LINKS */
+
+.link {
+  all: unset;
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 7px;
 }
 
 /* INDEX VIEW */
