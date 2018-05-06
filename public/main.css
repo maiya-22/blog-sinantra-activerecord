@@ -14,14 +14,12 @@ body {
 .link,
 a {
   all: unset;
-  /* color: rgb(240, 150, 32); */
-  color: darkgray;
+  color: rgb(240, 150, 32);
   background-color: rgb(243, 242, 242);
   border: solid 1px rgb(230, 229, 229);
   /* color: rgb(47, 96, 175); */
   padding: 0.5rem;
   border-radius: 7px;
-  font-family: monospace;
   font-weight: 100;
 }
 
