@@ -19,7 +19,8 @@ a {
   border-radius: 7px;
 }
 
-.link:hover {
+.link:hover,
+a:hover {
   color: rgb(226, 102, 0);
   background-color: white;
 
