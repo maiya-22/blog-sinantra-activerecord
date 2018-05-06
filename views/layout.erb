@@ -11,12 +11,14 @@
 
 <body>
     <div id="frame">
-    <%#if make a sign-up and sign-in bar%>
-    <%#if there is no one signed in, render the sign-in and sign-up forms%>
-    <%unless signed_in %>
-        <%= erb "partials/forms/_sign_in_form".to_sym %>
+
+    <%if signed_in %>
+    <a href="/sign-out">sign out</a>
+    <% else %>
+        <%= erb "partials/forms/_sign_in_form".to_sym, :locals => { :does_not_exists_error => :does_not_exists_error } %>
         <%= erb "partials/forms/_sign_up_form".to_sym %>
     <% end %>
+    
     <header>
         <h1>BLOG SITE<h1>
     </header>

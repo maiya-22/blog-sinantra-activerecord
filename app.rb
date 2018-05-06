@@ -47,14 +47,23 @@ end
 before do
     params.delete(:captures) if params.key?(:captures) && params[:captures].empty?
 end
+def reset_session 
+    session[:id] = nil
+    session[:does_not_exists_error] = nil
+end
 
 get '/' do
+    session[:already_exists_error] = session[:already_exists_error] || nil
     @blogs = params[:id] != nil ? Blog.where({user_id: session[:id]}).order(created_at: :desc) : Blog.all.shuffle
     if(signed_in?)
     end 
-    erb :index, :layout => true, :locals => {:signed_in => signed_in?,:user_name => session[:user_name] || nil, :blogs => @blogs, :sign_in_error => session[:sign_in_error]}
+    erb :index, :layout => true, :locals => {:signed_in => signed_in?,:user_name => session[:user_name] || nil, :blogs => @blogs, :does_not_exists_error => session[:does_not_exists_error]}
 end
 
+get '/sign-out' do
+    reset_session
+    redirect '/'
+end
 
 post '/sign-in' do
     # so that request can come from the form or from postman:
@@ -62,12 +71,12 @@ post '/sign-in' do
     @user = User.where(body)[0]
     @users = User.all
     if(@user == nil)
-        session[:sign_in_error] = true
+        session[:does_not_exists_error] = true
         redirect "/"
     else
         session[:id] = @user.id
         session[:user_name] = @user.user_name
-        session[:sign_in_error] = nil
+        session[:does_not_exists_error] = nil
         redirect "/"
     end
 end

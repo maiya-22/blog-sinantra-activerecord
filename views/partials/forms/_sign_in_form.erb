@@ -5,8 +5,7 @@
     <label for="password">password</label>
     <input type="text" name="body[password]">
     <input type="submit" value="Submit">
-
-    <% if @already_exists_error %>
-        <p class="error">that user aready exists. please try again</p>
+    <% if does_not_exists_error %>
+        <p class="error">wrong user name or password</p>
     <%end%>
 </form>
