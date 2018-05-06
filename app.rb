@@ -61,7 +61,13 @@ get '/' do
     does_not_exist_error = session[:does_not_exist_error] #capture this error if it was set by the sign-in route
     session[:does_not_exist_error] = false # clear the error for later page refreshes
     @blogs = params[:id] != nil ? Blog.where({user_id: session[:id]}).order(created_at: :desc) : Blog.all.shuffle
+    # what if it is just a single blog?
     erb :index, :layout => true, :locals => {:signed_in => signed_in?,:user_name => session[:user_name] || nil, :blogs => @blogs, :does_not_exist_error => does_not_exist_error || false}
+end
+
+# in progress:
+get "/blog/:blog_id/view" do
+    @blog = Blog.find_by_id(params[:blog_id]).to_json
 end
 
 # change to a post route:
@@ -93,9 +99,11 @@ post "/sign-up" do
      
 end
 
+
+
 # send all miscelaneous routes to the root route
-get "/*" do
-    redirect "/"
-end
+# get "/*" do
+#     redirect "/"
+# end
 
 
