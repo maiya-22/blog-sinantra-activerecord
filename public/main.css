@@ -4,6 +4,7 @@ body {
 #frame {
   width: 80%;
   margin: auto;
+  margin-top: 3rem;
 }
 
 /* BUTTONS AND LINKS */
