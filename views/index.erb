@@ -9,6 +9,7 @@
 <%blogs.each do |blog|%>
     <div class="blogSummaryWrap">
         <h4><em>title:</em> <%= blog.title%></h4>
+        <a href="/blog/<%=blog.id%>">view this blog</a>
         <%if !signed_in %>
             <p>by: <%=blog.user.user_name%></p>
         <%end%>
@@ -27,6 +28,10 @@
                 <div class="tagWrap">#<%=tag_name%> </div>
             <%end%>
         <%end%>
+        <%if signed_in %>
+            <a href="/blog/<%= blog.id %>/edit">edit</a>
+            <a href="/blog/<%= blog.id %>/destroy">delete</a>
+        <% end %>
     </div>
 <%end%>
 
