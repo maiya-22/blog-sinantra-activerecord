@@ -8,11 +8,22 @@ body {
 
 /* BUTTONS AND LINKS */
 
-.link {
+.link,
+a {
   all: unset;
-  background-color: white;
+  color: rgb(240, 150, 32);
+  background-color: rgb(243, 242, 242);
+  border: solid 1px rgb(230, 229, 229);
+  /* color: rgb(47, 96, 175); */
   padding: 0.5rem;
   border-radius: 7px;
+}
+
+.link:hover {
+  color: rgb(226, 102, 0);
+  background-color: white;
+
+  /* background-color: rgb(181, 219, 255); */
 }
 
 /* INDEX VIEW */
