@@ -1,0 +1,31 @@
+
+
+
+        <h4 class="blogTitle"><%= blog.title%></h4>
+      
+            <p>by: <%=blog.user.user_name%></p>
+            <p>summary: <%=blog.summary%></p>
+        
+        <div class="tagDisplayWrap">
+            <p class="tagTitle"><em>tags:</em></p>
+            <%unique_tag_names = {}%>
+            <%blog.posts.each do |post|%>
+                <p class="">Title: <%=post.title%> </p>
+                <p class="">Content: <%=post.content%> </p>
+                <%tag_names = []%>
+                <%post.tags.each do |tag|%>
+                <%if !unique_tag_names[tag.name]%>
+                        <%tag_names.push(tag.name)%>
+                <%end%>
+                <%unique_tag_names[tag.name] = true%>
+                <%end%>
+                <%tag_names.each do |tag_name|%>
+                    <div class="tagWrap">#<%=tag_name%> </div>
+                <%end%>
+            <%end%>
+        </div>
+       
+            <a href="/blog/<%= blog.id %>/edit">edit</a>
+            <a href="/blog/<%= blog.id %>/destroy">delete</a>
+     
+    </div>

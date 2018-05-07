@@ -5,6 +5,7 @@ require 'pg'
 require 'faker'
 require 'json'
 
+Dir[settings.root + "/models/*.rb"].each {|file| require file}
 require_relative './app.rb'
 
 # TO RUN THESE ROUTES:  
@@ -100,6 +101,10 @@ delete "/tag/destroy" do
     body = JSON.parse request.body.read  # body: {id: number} or {name: string}
     @tag_to_destroy = Tag.where(body)[0] 
     @tag_to_destroy.destroy
+    # @tag_test = Tag.find_by_id(5)
+    # p "TAG TEST NAME:"
+    # p @tag_test.name
+    # @tag_test.destroy
     redirect "/tag"
 end
 

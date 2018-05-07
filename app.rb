@@ -53,9 +53,6 @@ def reset_session
     clear_session_errors
 end
 
-# to do: make a route that sends the error status to an ajax call
-# make an ajax call that will trigger re-setting errors to none 
-
 
 get '/' do 
     does_not_exist_error = session[:does_not_exist_error] #capture this error if it was set by the sign-in route
@@ -67,7 +64,8 @@ end
 
 # in progress:
 get "/blog/:blog_id/view" do
-    @blog = Blog.find_by_id(params[:blog_id]).to_json
+    @blog = Blog.find_by_id(params[:blog_id])
+    erb :display_blog, :layout => true,  :locals => {:signed_in => signed_in?, :user_name => session[:user_name] || nil, :blog => @blog, :does_not_exist_error => false}
 end
 
 # change to a post route:
