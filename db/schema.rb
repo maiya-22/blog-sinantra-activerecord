@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 2018_05_02_205623) do
     t.index ["blog_id"], name: "index_posts_on_blog_id"
   end
 
-  create_table "posts_tags", id: false, force: :cascade do |t|
+  create_table "posts_tags", force: :cascade do |t|
     t.bigint "tag_id"
     t.bigint "post_id"
     t.index ["post_id"], name: "index_posts_tags_on_post_id"

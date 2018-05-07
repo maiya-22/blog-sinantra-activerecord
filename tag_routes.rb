@@ -97,11 +97,10 @@ end
 
 # NOT WORKING leaving orphans
 # STOPPED working to destroy a tag and remove its associations form the "posts_tags" table
-delete "/tag/destroy" do
+delete "/tag-routes/tag/destroy" do
     body = JSON.parse request.body.read  # body: {id: number} or {name: string}
     @tag_to_destroy = Tag.where(body)[0] 
     @tag_to_destroy.destroy
-    # @tag_test = Tag.find_by_id(5)
     # p "TAG TEST NAME:"
     # p @tag_test.name
     # @tag_test.destroy
