@@ -53,13 +53,19 @@ def reset_session
     clear_session_errors
 end
 
+@user = User.find_by_id(1)
+result = @user || "user not found"
 
 get '/' do 
-    does_not_exist_error = session[:does_not_exist_error] #capture this error if it was set by the sign-in route
-    session[:does_not_exist_error] = false # clear the error for later page refreshes
+    # capture possible errors from the session object:
+    already_existing_user_name_error = session[:already_existing_user_name_error] || false
+    does_not_exist_error = session[:does_not_exist_error]  || false
+    # clear the errorors for later page refreshes
+    session[:already_existing_user_name_error] = false
+    session[:does_not_exist_error] = false 
     @blogs = params[:id] != nil ? Blog.where({user_id: session[:id]}).order(created_at: :desc) : Blog.all.shuffle
     # what if it is just a single blog?
-    erb :index, :layout => true, :locals => {:signed_in => signed_in?,:user_name => session[:user_name] || nil, :blogs => @blogs, :does_not_exist_error => does_not_exist_error || false}
+    erb :index, :layout => true, :locals => {:signed_in => signed_in?,:user_name => session[:user_name] || nil, :blogs => @blogs, :does_not_exist_error => does_not_exist_error, :already_existing_user_name_error => already_existing_user_name_error}
 end
 
 # in progress:
@@ -94,8 +100,24 @@ end
 
 # should this route be named post "/user/create" ?
 post "/sign-up" do
+    @new_user_name = params[:user_name]
+    @already_existing_user_name = User.where(user_name: @new_user_name)[0]
+    if(@already_existing_user_name != nil)
+        session[:already_existing_user_name_error] = true
+        redirect "/"
+    end
      
 end
+
+
+# <form id="signUp" action="/sign-up" method="post">
+# <h1>Sign Up</h1>
+#     <label for="user_name">User Name</label>
+#     <input id="newUserName" type="text" name="user_name">
+#     <label for="password">password</label>
+#     <input type="text" name="password">
+#     <input type="submit" value="Submit">
+# </form>
 
 
 

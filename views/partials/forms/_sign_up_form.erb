@@ -5,4 +5,7 @@
     <label for="password">password</label>
     <input type="text" name="password">
     <input type="submit" value="Submit">
+    <%if already_existing_user_name_error %>
+     <p class="error">That user name is taken.  Please try again. </p>
+    <% end %>
 </form>

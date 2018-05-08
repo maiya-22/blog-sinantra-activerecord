@@ -1,17 +1,25 @@
 
 
-
-        <h4 class="blogTitle"><%= blog.title%></h4>
+<div class="blogWrap">
+        <h4 class="blogTitle">Blog Title:<%= blog.title%></h4>
       
             <p>by: <%=blog.user.user_name%></p>
             <p>summary: <%=blog.summary%></p>
+            <a href="/blog/<%= blog.id %>/edit">edit</a>
+            <a href="/blog/<%= blog.id %>/destroy">delete</a>
+     
         
+
+        
+
         <div class="tagDisplayWrap">
-            <p class="tagTitle"><em>tags:</em></p>
-            <%unique_tag_names = {}%>
             <%blog.posts.each do |post|%>
-                <p class="">Title: <%=post.title%> </p>
-                <p class="">Content: <%=post.content%> </p>
+                
+                <p class="">Post Date: <%=post.created_at%> </p>
+                <p class="">Post Title: <%=post.title%> </p>
+                <p class="">Post Content: <%=post.content%> </p>
+                
+                <%unique_tag_names = {}%>
                 <%tag_names = []%>
                 <%post.tags.each do |tag|%>
                 <%if !unique_tag_names[tag.name]%>
@@ -22,10 +30,14 @@
                 <%tag_names.each do |tag_name|%>
                     <div class="tagWrap">#<%=tag_name%> </div>
                 <%end%>
+                <%#change this to an ajax call to replace this current post with an edit form:%>
+                <a href="/post/<%= post.id %>/edit">edit</a>
+                <%#change this to an ajax call to delete this post and re-load the page%>
+                <a href="/post/<%= post.id %>/destroy">delete</a>
+
             <%end%>
         </div>
        
-            <a href="/blog/<%= blog.id %>/edit">edit</a>
-            <a href="/blog/<%= blog.id %>/destroy">delete</a>
-     
+          
     </div>
+</div>

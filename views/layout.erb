@@ -10,6 +10,7 @@
 </head>
 
 <body>
+  
     <div id="frame">
     <div id="navbar">
         <%if signed_in %>
@@ -17,21 +18,18 @@
         <% else %>
             <% does_not_exist_error %>
             <%= erb "partials/forms/_sign_in_form".to_sym, :locals => { :does_not_exist_error => does_not_exist_error } %>
-            <%= erb "partials/forms/_sign_up_form".to_sym %>
+            <%= erb "partials/forms/_sign_up_form".to_sym, :locals => { :already_existing_user_name_error => already_existing_user_name_error } %>
         <% end %>
    
     <header>
         <h1 id="siteTitle">BLOG SITE<h1>
-    <%if signed_in %>
-        <p id="siteTagLine">Hi, <%=user_name%>. You are signed in.  Here is a list of your blogs:</p>
-    <% else %>
-        <p id="siteTagLine">All the blogs on our site:</p>
-    <% end %>
+
+    
 
     </header>
     </div>
     <%= yield%>
-    </div>
+   
     <script src="main.js"></script>
 </body>
 
