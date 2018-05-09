@@ -7,7 +7,7 @@
 <% end %>
 
 <%blogs.each do |blog|%>
-    <div class="blogSummaryWrap">
+    <div class="blogSummaryWrap subtle">
         <h4 class="blogTitle"><%= blog.title%></h4>
         <%if !signed_in %>
             <p>by: <%=blog.user.user_name%></p>

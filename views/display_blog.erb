@@ -6,11 +6,7 @@
             <p>by: <%=blog.user.user_name%></p>
             <p>summary: <%=blog.summary%></p>
             <a href="/blog/<%= blog.id %>/edit">edit</a>
-            <a href="/blog/<%= blog.id %>/destroy">delete</a>
-     
-        
-
-        
+            <a href="/blog/<%= blog.id %>/destroy">delete</a>    
 
         <div class="tagDisplayWrap">
             <%blog.posts.each do |post|%>

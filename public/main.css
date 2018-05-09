@@ -1,13 +1,146 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
 body {
-  background-color: rgb(62, 108, 183);
-  font-family: fantasy;
-  padding-top: 50px;
+  line-height: 1;
+}
+ol,
+ul {
+  list-style: none;
+}
+blockquote,
+q {
+  quotes: none;
+}
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* end of reset */
+
+body {
+  background-color: rgb(255, 255, 255);
+  font-family: "Mukta", sans-serif;
+  line-height: 1.9rem;
 }
 #frame {
   width: 80%;
   margin: auto;
-  margin-top: 3rem;
 }
+
+/* fonts: */
 
 /* BUTTONS AND LINKS */
 
@@ -38,7 +171,7 @@ a:hover {
   border-radius: 3px;
   background-color: rgb(236, 235, 235);
   margin-bottom: 1rem;
-  padding: 0.25rem 1rem 1rem 2rem;
+  padding: 1rem 1rem 1rem 2rem;
 }
 
 .blogTitle {
@@ -72,16 +205,21 @@ a:hover {
 
 /* SIGN IN AND SIGN UP FORMS */
 
+/* wrap around both forms: */
+#signUpWrap {
+  position: fixed;
+  top: 2rem;
+  right: 2rem;
+  border: solid lightgray 2px;
+  border-radius: 5px;
+  background-color: white;
+  padding: 1rem;
+  color: gray;
+}
+
 #signIn,
 #signUp {
-  float: left;
-  /* border: solid blue 1px; */
-  padding: 1rem;
-  /* background-color: rgb(121, 165, 204); */
-  border-radius: 10px;
-  margin-left: 2rem;
-  margin-bottom: 1rem;
-  /* position: sticky; */
+  margin-top: 1rem;
 }
 
 #signIn h1,
@@ -94,7 +232,8 @@ a:hover {
 }
 
 #navbar {
-  background-color: rgb(62, 108, 183);
+  /* background-color: rgb(62, 108, 183); */
+  background-color: rgb(255, 255, 255);
 }
 #navbar h1 {
   clear: both;
@@ -105,7 +244,7 @@ a:hover {
 }
 
 #siteTagLine {
-  color: rgb(11, 30, 114);
+  /* color: rgb(11, 30, 114); */
 }
 
 #navbar p {

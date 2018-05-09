@@ -5,29 +5,35 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Mukta|Niconne|Satisfy|Special+Elite" rel="stylesheet">
     <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
     
 </head>
 
 <body>
+    <% does_not_exist_error %>
+    <% already_existing_user_name_error = already_existing_user_name_error || false %>
   
+
     <div id="frame">
-    <div id="navbar">
+    <div id="navbar" class="cursive">
         <%if signed_in %>
         <a href="/sign-out" class="link">sign out</a>
         <% else %>
-            <% does_not_exist_error %>
-            <%= erb "partials/forms/_sign_in_form".to_sym, :locals => { :does_not_exist_error => does_not_exist_error } %>
-            <%= erb "partials/forms/_sign_up_form".to_sym, :locals => { :already_existing_user_name_error => already_existing_user_name_error } %>
+            <div id="signUpWrap">
+                <%= erb "partials/forms/_sign_in_form".to_sym, :locals => { :does_not_exist_error => does_not_exist_error } %>
+                <%= erb "partials/forms/_sign_up_form".to_sym, :locals => { :already_existing_user_name_error => already_existing_user_name_error } %>
+            </div>
         <% end %>
-   
+        <h1 id="siteTitle" class="cursive">BLOG SITE<h1>
+        </div>
     <header>
-        <h1 id="siteTitle">BLOG SITE<h1>
+       
 
     
 
     </header>
-    </div>
+   
     <%= yield%>
    
     <script src="main.js"></script>

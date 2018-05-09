@@ -58,14 +58,13 @@ result = @user || "user not found"
 
 get '/' do 
     # capture possible errors from the session object:
-    already_existing_user_name_error = session[:already_existing_user_name_error] || false
-    does_not_exist_error = session[:does_not_exist_error]  || false
+    @already_existing_user_name_error = session[:already_existing_user_name_error] || false
+    @does_not_exist_error = session[:does_not_exist_error]  || false
     # clear the errorors for later page refreshes
     session[:already_existing_user_name_error] = false
     session[:does_not_exist_error] = false 
     @blogs = params[:id] != nil ? Blog.where({user_id: session[:id]}).order(created_at: :desc) : Blog.all.shuffle
-    # what if it is just a single blog?
-    erb :index, :layout => true, :locals => {:signed_in => signed_in?,:user_name => session[:user_name] || nil, :blogs => @blogs, :does_not_exist_error => does_not_exist_error, :already_existing_user_name_error => already_existing_user_name_error}
+    erb :index, :layout => true, :locals => {:signed_in => signed_in?,:user_name => session[:user_name] || nil, :blogs => @blogs, :does_not_exist_error => @does_not_exist_error, :already_existing_user_name_error => @already_existing_user_name_error || false}
 end
 
 # in progress:
@@ -86,7 +85,6 @@ post '/sign-in' do
     # so that request can come from the form or from postman:
     body = params.key?(:body) ? params[:body] : JSON.parse(request.body.read)
     @user = User.where(body)[0]
-    @users = User.all
     if(@user == nil)
         session[:does_not_exist_error] = true
         redirect "/"
@@ -104,6 +102,12 @@ post "/sign-up" do
     @already_existing_user_name = User.where(user_name: @new_user_name)[0]
     if(@already_existing_user_name != nil)
         session[:already_existing_user_name_error] = true
+        redirect "/"
+    else 
+        @new_user = User.create(user_name: @new_user_name, password: params[:password])
+        @user_id = User.find_by_user_name(@new_user_name).id
+        session[:id] = @user_id
+        session[:user_name] = @new_user.user_name
         redirect "/"
     end
      
